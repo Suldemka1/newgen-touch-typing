@@ -1,21 +1,20 @@
-export interface IUser {
-  nickname: string;
-}
+import { IUserModule } from "@/models/store";
+import { notContains } from "class-validator";
 
 const user = {
-  state: (): IUser => ({
+  state: (): IUserModule => ({
     nickname: "John Doe",
   }),
   getters: {
-    getNickname(state: IUser) {
-      if (state.nickname == "") {
-        return state.nickname;
+    getNickname(state: IUserModule) {
+      if (state.nickname[0] != " " && state.nickname) {
+        return String().concat("@", state.nickname);
       }
-      return String().concat("@", state.nickname);
+      return "@John Doe";
     },
   },
   mutations: {
-    setNickname(state: IUser, nickname: string) {
+    setNickname(state: IUserModule, nickname: string) {
       state.nickname = nickname;
     },
   },

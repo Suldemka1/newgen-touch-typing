@@ -1,30 +1,39 @@
 <template>
   <div class="statistics">
     <span>Время {{ time }}</span>
-    <span>Допущено ошибок {{ uncorrectPressCount }}</span>
+    <span>Ошибок {{ uncorrectPressCount }}</span>
     <span>APM {{ speed }}</span>
     <span>Точность {{ accuracity }}</span>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 export default {
   name: "Statistics",
 
   computed: {
     ...mapState({
-      time: (state) => state.test.time,
-      uncorrectPressCount: (state) => state.test.uncorrectPressCount,
-      speed: (state) => state.test.speed,
-      accuracity: (state) => state.test.accuracity,
+      time: (state) => state.stats.time,
+      uncorrectPressCount: (state) => state.stats.uncorrectPressCount,
+      // speed: (state) => state.stats.speed,
+      // accuracity: (state) => state.stats.accuracity,
+    }),
+    ...mapGetters({
+      speed: "getSpeed",
+      accuracity: "getAccuracity",
     }),
   },
 
-  mounted() {
-    console.log("statistics");
-    console.log(this.time);
+  methods: {
+    ...mapMutations({}),
+
+    ...mapActions({
+    }),
   },
+
+  mounted() {},
+  updated() {},
 };
 </script>
 
@@ -34,14 +43,14 @@ export default {
   height: 80px;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   gap: 30px;
 }
 
 .statistics span {
-  width: fit-content;
+  /* width: 100%; */
   white-space: nowrap;
-  
+
   color: white;
   font-size: 22px;
   font-weight: 600;

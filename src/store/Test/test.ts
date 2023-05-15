@@ -1,80 +1,92 @@
-import { AppContext } from "vue";
 import { ActionContext } from "vuex";
-import { Context } from "..";
+import store from "..";
+import { ITestModule, TestContext } from "@/models/store";
 
-export interface State {}
-const exceptions = ["Enter", "CapsLock", "Shift", "Tab"];
-export interface ITest {
-  text: Array<string>;
-  step: number;
-
-  isCorrect: boolean;
-
-  isStarted: boolean;
-
-  timer: number;
-
-  time: number;
-  speed: number;
-  uncorrectPressCount: number;
-  accuracity: number;
-}
+const exceptions = [
+  "Enter",
+  "CapsLock",
+  "Shift",
+  "Tab",
+  "Ctrl",
+  "Alt",
+  "Backspace",
+  "Esc",
+  "Numlock"
+];
 
 const testModule = {
-  state: (): ITest => ({
-    text: ["a", "s"],
+  state: (): ITestModule => ({
+    text: [""],
     step: 0,
-
-    isCorrect: true,
-
-    isStarted: false,
+    progress: 0,
 
     timer: 0,
 
-    time: 0,
-    speed: 0,
-    uncorrectPressCount: 0,
-    accuracity: 0,
+    isCorrect: true,
+    isStarted: false,
   }),
   getters: {
-    getText: (state: ITest) => {
+    getText: (state: ITestModule) => {
       return state.text;
     },
-    getTestStatus: (state: ITest) => {
+    getTestStatus: (state: ITestModule) => {
       return state.isStarted;
     },
   },
   mutations: {
-    setText: (state: ITest, text: Array<string>) => {
+    deleteByKey(state: ITestModule, key: number) {
+      delete state.text[key];
+    },
+    setText: (state: ITestModule, text: Array<string>) => {
       state.text = text;
     },
-    setTimer(state: ITest, timer: number) {
-      state.timer = timer;
-    },
-    setTime(state: ITest, time: number) {
-      state.time += 1;
+
+    setIsStarted(state: ITestModule, status: boolean) {
+      state.isStarted = status;
     },
 
-    setIsStarted(state: ITest, status: boolean) {
-      state.isStarted = true;
+    setTimer(state: ITestModule, cb: Function) {
+      state.timer = setInterval(cb, 1000);
+    },
+
+    setIsCorrect(state: ITestModule, status: boolean) {
+      state.isCorrect = status;
+    },
+
+    setStep(state: ITestModule) {
+      state.step += 1;
+    },
+
+    setTestToZero(state: ITestModule) {
+      state.step = 0;
+      clearInterval(state.timer);
+      state.isCorrect = true;
     },
   },
   actions: {
-    startTest(context: Context) {
-      context.commit(
-        "setTimer",
-        setInterval(() => {
+    startTest(context: TestContext, endTestCB: Function) {
+      context.commit("setIsStarted", true);
+      context.commit("setTimer", () => {
+        if (context.state.step !== context.state.text.length)
           context.commit("setTime");
-        }, 1000)
-      );
-    },
-    endTest(context: Context) {
-      if (context.state.step === context.state.text.length) {
-        clearInterval(context.state.timer);
-      }
+        else {
+          context.commit("setIsStarted", false);
+          clearInterval(context.state.timer);
+          // when test end
+          endTestCB();
+        }
+        context.dispatch("countSpeed");
+      });
     },
 
-    async fetchText(context: Context, sentences: number) {
+    restartTest(context: TestContext) {
+      context.commit("setIsStarted", false);
+      context.commit("setTestToZero");
+      context.commit("setStatsToZero");
+    },
+
+    async fetchText(context: TestContext, sentences: number) {
+      context.commit("setText", "");
       const apiText = await fetch(
         `https://fish-text.ru/get?type=sentences&format=json&number=${sentences}`
       )
@@ -82,19 +94,27 @@ const testModule = {
         .then((res) => res.text)
         .then((res) => res.split(""));
 
-      await context.commit("setText", apiText);
+      context.commit("setText", apiText);
     },
 
-    handlePress(context: Context, e: KeyboardEvent) {
+    handlePress(context: TestContext, e: KeyboardEvent) {
       if (!exceptions.includes(e.key)) {
         if (context.state.text[context.state.step] == e.key) {
-          context.state.isCorrect = true;
-          context.state.step += 1;
+          context.commit("setIsCorrect", true);
+
+          // можно удалить введенный символ, задумывал сделать соотвествующий режим
+          // потом уже стало лень
+          // важно удалить символ по текущему step и только потом увеличить step
+          // context.commit("deleteByKey", context.state.step);
+
+          context.commit("setStep");
         } else {
-          context.state.uncorrectPressCount += 1;
-          context.state.isCorrect = false;
+          context.commit("setIsCorrect", false);
+          context.commit("addUnPress");
         }
       }
+
+      context.dispatch("countAccuracity");
     },
   },
 

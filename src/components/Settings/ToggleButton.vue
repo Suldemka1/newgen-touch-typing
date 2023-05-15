@@ -1,42 +1,52 @@
 <template>
-  <div class="settings__button" @click="$store.commit('setIsOpen')">
-    <div class="" v-if="$store.state.settings.isOpen">
-      <h2>Настройки</h2>
-      <img src="/close.png" width="40" />
+  <div class="toggle">
+    <div v-if="isSettingsOpen">
+      <h2 @click="setIsSettingsOpen">Настройки</h2>
+      <img src="/icons/close.png" width="40" @click="setIsSettingsOpen" />
     </div>
     <div v-else>
-      <img src="/options.png" width="40" />
+      <img src="/icons/options.png" width="40" @click="setIsSettingsOpen" />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapMutations, mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState({
+      isSettingsOpen: (state) => state.settings.isSettingsOpen,
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      setIsSettingsOpen: "setIsSettingsOpen",
+    }),
+  },
+};
 </script>
 
 <style>
-.settings__button div {
+.toggle div {
   position: absolute;
   top: 0;
+
+  width: calc(100% - 80px);
+  height: 40px;
 
   display: flex;
   align-items: center;
   justify-content: end;
   gap: 10px;
 
-  margin-top: 20px;
-  margin-left: 40px;
-  margin-right: 40px;
-
   z-index: 4;
 
-  width: 320px;
-  height: 40px;
-
+  margin: 20px 40px 0 40px;
   cursor: pointer;
 }
 
-.settings__button div h2 {
+.toggle div h2 {
+  user-select: none;
   width: 100%;
 }
 </style>

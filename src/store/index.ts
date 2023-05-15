@@ -1,25 +1,20 @@
 import { createStore } from "vuex";
+import { IState } from "@/models/store";
 import settings from "./Settings/settings";
-import textOptions, { ITextModuleState } from "./Settings/textOptionsModule";
-import testModule, { ITest } from "./Test/test";
-import { ActionContext } from "vuex";
-import user, { IUser } from "./Settings/user";
+import textOptions from "./Settings/text";
+import testModule from "./Test/test";
+import user from "./Settings/user";
+import stats from "./Stats/stats";
+import results from "./Results/results";
 
-export type Context = ActionContext<ITest, State>;
-
-export interface State {
-  settings: any;
-  user: IUser;
-  text: ITextModuleState;
-  test: ITest;
-}
-
-const store = createStore<State>({
+const store = createStore<IState>({
   modules: {
+    results: results,
     settings: settings,
     user: user,
     text: textOptions,
     test: testModule,
+    stats: stats,
   },
 });
 

@@ -1,12 +1,11 @@
 <template>
-  <div>
     <input
       :value="nickname"
       @input="(event) => setNickname(event.target.value)"
+      maxlength="20"
       class="nickname"
-      placeholder="Никнейм"
+      placeholder="никнейм"
     />
-  </div>
 </template>
 
 <script>
@@ -25,4 +24,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+.nickname {
+  height: 50px;
+  font-size: 21px;
+
+  border: 2px rgb(6, 94, 48) solid;
+  border-radius: 5px;
+
+  padding: 6px 12px;
+  outline: none;
+}
+</style>

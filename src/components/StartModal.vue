@@ -1,12 +1,10 @@
 <template>
-  <div></div>
   <div v-if="!isStarted" class="modal">
-    <settings></settings>
-    <div class="message">
+    <div class="modal__message">
       <h1>Для начала тестирования нажмите ENTER</h1>
     </div>
 
-    <div class="fade"></div>
+    <div class="modal__fade"></div>
   </div>
 </template>
 
@@ -36,19 +34,20 @@ export default {
   align-items: center;
 }
 
-.message {
+.modal__message {
   position: relative;
   color: white;
   z-index: 1;
+  
 }
 
-.fade {
+.modal__fade {
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 0;
 }
 </style>

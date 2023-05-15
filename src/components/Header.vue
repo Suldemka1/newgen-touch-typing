@@ -4,11 +4,7 @@
       <div class="user">
         <h1>{{ this.getNickname }}</h1>
       </div>
-
       <statistics></statistics>
-
-      <h1>{{ $store.state.settings.currentLetterColor }}</h1>
-      <h1>{{ $store.state.settings.errorColor }}</h1>
     </div>
   </header>
 </template>
@@ -28,10 +24,6 @@ export default {
 </script>
 
 <style>
-header {
-  background: green;
-}
-
 .header__content {
   display: flex;
   align-items: center;
@@ -39,5 +31,9 @@ header {
 
 .user {
   width: 100%;
+  letter-spacing: 2px;
+  font-weight: 900;
+  color: white;
+  white-space: nowrap;
 }
 </style>

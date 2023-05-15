@@ -1,21 +1,21 @@
-import { Context } from "..";
-
-interface ISettings {
-  isOpen: boolean;
-}
+import { ISettingsModule } from "@/models/store";
 
 const settings = {
-  state: (): ISettings => ({
-    isOpen: true,
+  state: (): ISettingsModule => ({
+    isResultsOpen: true,
+    isSettingsOpen: true,
   }),
   getters: {
-    getIsOpenState(state: ISettings) {
-      return state.isOpen;
+    getisSettingsOpenState(state: ISettingsModule) {
+      return state.isSettingsOpen;
     },
   },
   mutations: {
-    setIsOpen(state: ISettings) {
-      state.isOpen = !state.isOpen;
+    setIsResultsOpen(state: ISettingsModule) {
+      state.isResultsOpen = !state.isResultsOpen;
+    },
+    setIsSettingsOpen(state: ISettingsModule) {
+      state.isSettingsOpen = !state.isSettingsOpen;
     },
   },
   actions: {},

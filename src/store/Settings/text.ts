@@ -1,16 +1,6 @@
-export interface ITextModuleState {
-  sentences: number;
+import { ITextModule } from "@/models/store";
 
-  textSizeNum: string;
-  textSize: string;
-
-  isCorrect: boolean;
-  correctStyle: ITextStyle;
-  uncorrectStyle: ITextStyle;
-  currentStyle: ITextStyle;
-}
-
-interface ITextStyle {
+export interface ITextStyle {
   background: string;
   border: string;
   color: string;
@@ -31,49 +21,45 @@ const initialUncorrectStyle: ITextStyle = {
 };
 
 const textOptions = {
-  state: (): ITextModuleState => ({
-    sentences: 4,
-
-    textSizeNum: "17",
-    textSize: "17px",
+  state: (): ITextModule => ({
+    sentences: 3,
+    textSize: "15",
 
     isCorrect: true,
 
     correctStyle: initialCorrectStyle,
     uncorrectStyle: initialUncorrectStyle,
-
-    currentStyle: initialCorrectStyle,
   }),
 
   getters: {
-    getCorrectStyles(state: ITextModuleState) {
+    getCorrectStyles(state: ITextModule) {
       const correctStyle = state.correctStyle;
       return correctStyle;
     },
 
-    getUncorrectStyles(state: ITextModuleState) {
+    getUncorrectStyles(state: ITextModule) {
       const uncorrectStyle = state.uncorrectStyle;
       return uncorrectStyle;
     },
 
-    getTextSize(state: ITextModuleState) {
+    getTextSize(state: ITextModule) {
       return String().concat(state.textSize, "px");
     },
   },
 
   mutations: {
-    setSentencesCount(state: ITextModuleState, count: number) {
+    setSentencesCount(state: ITextModule, count: number) {
       state.sentences = Number(count);
     },
-    setTextSize(state: ITextModuleState, size: string) {
+    setTextSize(state: ITextModule, size: string) {
       console.log(size);
       state.textSize = size;
     },
-    setCorrectStyle(state: ITextModuleState, color: string) {
+    setCorrectStyle(state: ITextModule, color: string) {
       state.correctStyle.background = color;
       state.correctStyle.border = `${color} solid 2px`;
     },
-    setUncorrectStyle(state: ITextModuleState, color: string) {
+    setUncorrectStyle(state: ITextModule, color: string) {
       state.uncorrectStyle.background = color;
       state.uncorrectStyle.border = `${color} solid 2px`;
     },
