@@ -1,19 +1,21 @@
 # newgen-touch-typing
+Впервые писал что-то на vue, в процессе понял как это работает, но сомневаюсь это близко к best-practices.
+Для удобства загрузил проект на vercel https://newgen-touch-typing.vercel.app/
 
-## Project setup
+## Установка
+не требуется никакой ключ api
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### В режиме разработки
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Деплой
 ```
 npm run build
+npm i -g serve
+serve -s dist
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
