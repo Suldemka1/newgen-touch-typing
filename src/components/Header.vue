@@ -2,7 +2,7 @@
   <header>
     <div class="wrap header__content">
       <div class="user">
-        <h1>{{ this.getNickname }}</h1>
+        <h1>{{ getNickname }}</h1>
       </div>
       <statistics></statistics>
     </div>

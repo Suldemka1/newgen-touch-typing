@@ -1,15 +1,6 @@
-import { ITextStyle } from "@/store/Settings/text";
 import { ActionContext } from "vuex";
-
-export interface ILastGame {}
-
-export interface IResult {
-  nickname: string;
-  time: number;
-  misktakes: number;
-  speed: number;
-  accuracity: number;
-}
+import { IResult } from "./result.model";
+import { ITextStyle } from "./text.model";
 
 export interface IResultModule {
   results: IResult[];
@@ -37,7 +28,6 @@ export interface ITextModule {
 export interface ITestModule {
   text: Array<string>;
   step: number;
-  progress: number;
 
   timer: number;
 
@@ -49,7 +39,7 @@ export interface ITestModule {
 export interface IStatsModule {
   time: number;
   speed: number;
-  uncorrectPressCount: number;
+  mistakes: number;
   accuracity: number | string;
 }
 

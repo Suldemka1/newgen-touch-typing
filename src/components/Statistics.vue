@@ -1,7 +1,7 @@
 <template>
   <div class="statistics">
     <span>Время {{ time }}</span>
-    <span>Ошибок {{ uncorrectPressCount }}</span>
+    <span>Ошибок {{ mistakes }}</span>
     <span>APM {{ speed }}</span>
     <span>Точность {{ accuracity }}</span>
   </div>
@@ -15,7 +15,7 @@ export default {
   computed: {
     ...mapState({
       time: (state) => state.stats.time,
-      uncorrectPressCount: (state) => state.stats.uncorrectPressCount,
+      mistakes: (state) => state.stats.mistakes,
       // speed: (state) => state.stats.speed,
       // accuracity: (state) => state.stats.accuracity,
     }),

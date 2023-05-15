@@ -1,4 +1,4 @@
-import { ISettingsModule } from "@/models/store";
+import { ISettingsModule } from "@/models/store.model";
 
 const settings = {
   state: (): ISettingsModule => ({

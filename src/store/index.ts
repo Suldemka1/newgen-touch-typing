@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { IState } from "@/models/store";
+import { IState } from "@/models/store.model";
 import settings from "./Settings/settings";
 import textOptions from "./Settings/text";
 import testModule from "./Test/test";

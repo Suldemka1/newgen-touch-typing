@@ -1,6 +1,4 @@
-import { ActionContext } from "vuex";
-import store from "..";
-import { ITestModule, TestContext } from "@/models/store";
+import { ITestModule, TestContext } from "@/models/store.model";
 
 const exceptions = [
   "Enter",
@@ -11,14 +9,13 @@ const exceptions = [
   "Alt",
   "Backspace",
   "Esc",
-  "Numlock"
+  "Numlock",
 ];
 
 const testModule = {
   state: (): ITestModule => ({
     text: [""],
     step: 0,
-    progress: 0,
 
     timer: 0,
 
@@ -34,11 +31,12 @@ const testModule = {
     },
   },
   mutations: {
-    deleteByKey(state: ITestModule, key: number) {
-      delete state.text[key];
-    },
     setText: (state: ITestModule, text: Array<string>) => {
       state.text = text;
+    },
+
+    setStep(state: ITestModule) {
+      state.step += 1;
     },
 
     setIsStarted(state: ITestModule, status: boolean) {
@@ -53,8 +51,8 @@ const testModule = {
       state.isCorrect = status;
     },
 
-    setStep(state: ITestModule) {
-      state.step += 1;
+    deleteByKey(state: ITestModule, key: number) {
+      delete state.text[key];
     },
 
     setTestToZero(state: ITestModule) {
@@ -74,8 +72,16 @@ const testModule = {
           clearInterval(context.state.timer);
           // when test end
           endTestCB();
+          context.commit("restartTest");
         }
-        context.dispatch("countSpeed");
+
+        const speed = (
+          ((context.state.step + context.rootState.stats.mistakes) /
+            context.rootState.stats.time) *
+          60
+        ).toFixed();
+
+        context.commit("setSpeed", speed);
       });
     },
 
@@ -110,7 +116,7 @@ const testModule = {
           context.commit("setStep");
         } else {
           context.commit("setIsCorrect", false);
-          context.commit("addUnPress");
+          context.commit("addMistake");
         }
       }
 

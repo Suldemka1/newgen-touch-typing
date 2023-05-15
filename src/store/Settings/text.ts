@@ -1,10 +1,5 @@
-import { ITextModule } from "@/models/store";
-
-export interface ITextStyle {
-  background: string;
-  border: string;
-  color: string;
-}
+import { ITextModule } from "@/models/store.model";
+import { ITextStyle } from "@/models/text.model";
 
 // initial state for correctJSON
 const initialCorrectStyle: ITextStyle = {

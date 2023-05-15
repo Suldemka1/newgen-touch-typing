@@ -27,12 +27,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 import Settings from "./Settings/Settings.vue";
+import { IState } from "@/models/store.model";
 
-export default defineComponent({
+interface ITestComponentState {
+  text: string[],
+  sentences: number,
+  step: number,
+  isCorrect: boolean
+}
+
+interface ITestComponentGetters {
+  textSize: "getTextSize";
+  getCorrectStyles: "getCorrectStyles";
+  getUncorrectStyles: "getUncorrectStyles";
+}
+
+export default defineComponent<any>({
   components: { Settings },
   methods: {
     ...mapActions({
@@ -41,11 +55,11 @@ export default defineComponent({
     }),
   },
   computed: {
-    ...mapState({
-      text: (state) => state.test.text,
-      sentences: (state) => state.text.sentences,
-      step: (state) => state.test.step,
-      isCorrect: (state) => state.test.isCorrect,
+    ...mapState<ITestComponentState>({
+      text: (state : IState ) => state.test.text,
+      sentences: (state : IState) => state.text.sentences,
+      step: (state : IState) => state.test.step,
+      isCorrect: (state : IState) => state.test.isCorrect,
     }),
     ...mapGetters({
       textSize: "getTextSize",

@@ -4,7 +4,6 @@
   <test></test>
   <settings></settings>
   <start-modal></start-modal>
-  {{ getResults }}
 </template>
 
 <script>
@@ -24,18 +23,15 @@ export default {
       isStarted: (state) => state.test.isStarted,
       step: (state) => state.test.step,
 
+      // for result stats
       nickname: (state) => state.user.nickname,
       time: (state) => state.stats.time,
-      uncorrectPressCount: (state) => state.stats.uncorrectPressCount,
+      mistakes: (state) => state.stats.mistakes,
       speed: (state) => state.stats.speed,
       accuracity: (state) => state.stats.accuracity,
 
       result: (state) => state.results.result,
       results: (state) => state.results.results,
-    }),
-
-    ...mapGetters({
-      getResults: "getResults",
     }),
   },
 
@@ -43,22 +39,22 @@ export default {
     ...mapActions({
       handlePress: "handlePress",
       startTest: "startTest",
-      endTest: "endTest",
     }),
     ...mapMutations({
       setIsStarted: "setIsStarted",
+
       setCorrectStyle: "setCorrectStyle",
       setUncorrectStyle: "setUncorrectStyle",
-      setNickname: "setNickname",
       setTextSize: "setTextSize",
-      deleteByKey: "deleteByKey",
+
+      setNickname: "setNickname",
+
       setResults: "setResults",
       setResult: "setResult",
       setResultsFromCookie: "setResultsFromCookie",
     }),
 
     setup() {
-      //get cookies and set styles if exists
       const resultsFromCookie = this.$cookies.get("results");
       const correctStylesFromCookie = this.$cookies.get("correctStyles");
       const uncorrectStylesFromCookie = this.$cookies.get("uncorrectStyles");
@@ -88,7 +84,7 @@ export default {
       const newResult = {
         nickname: this.nickname,
         time: this.time,
-        mistakes: this.uncorrectPressCount,
+        mistakes: this.mistakes,
         speed: this.speed,
         accuracity: this.accuracity,
       };
@@ -99,7 +95,6 @@ export default {
   },
   created() {
     this.setup();
-    console.log(this.$cookies.get("results"));
   },
   mounted() {
     document.addEventListener("keydown", (e) => {
@@ -118,7 +113,6 @@ export default {
     document.removeEventListener("keydown", () => {
       console.log("event listeners are removed");
     });
-    console.log("event listeners are removed");
   },
 };
 </script>

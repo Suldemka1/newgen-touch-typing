@@ -1,4 +1,4 @@
-import { IUserModule } from "@/models/store";
+import { IUserModule } from "@/models/store.model";
 import { notContains } from "class-validator";
 
 const user = {

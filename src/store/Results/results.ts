@@ -1,4 +1,5 @@
-import { IResult, IResultModule, ResultContext } from "@/models/store";
+import { IResult } from "@/models/result.model";
+import { IResultModule } from "@/models/store.model";
 
 const results = {
   state: (): IResultModule => ({
